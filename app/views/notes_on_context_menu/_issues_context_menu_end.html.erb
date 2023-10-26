@@ -1,6 +1,16 @@
 <% if @issue -%>
-<% note_count = @issue.visible_journals_with_index.select{|journal| journal.notes.present?}.count %>
-<li>
-  <%= context_menu_link l(:label_x_comments, count: note_count), '#', class: 'icon icon-comment notes_on_context_menu' %>
+<% journal_with_notes = @issue.visible_journals_with_index.select{|journal| journal.notes.present?} %>
+<li class="notes_on_context_menu">
+  <%= context_menu_link l(:label_x_comments, count: journal_with_notes.count), '#', class: 'icon icon-comment' %>
+  <% if @issue.last_notes.present? && journal_with_notes.count > 0 %>
+  <% last_journal = journal_with_notes.last %>
+    <%= content_tag(
+      'div', textilizable(@issue, :last_notes),
+      class: "wiki notes_on_context_menu",
+      data: {title: "#{l(:label_last_notes)}: #{l(
+        :label_time_by_author,
+        time: format_time(last_journal.updated_on),
+        author: last_journal.updated_by)}"}) %>
+  <% end %>
 </li>
 <% end %>

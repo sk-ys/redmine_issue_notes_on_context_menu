@@ -1,0 +1,12 @@
+.notes_on_context_menu > div.wiki.notes_on_context_menu {
+    display: none;
+}
+.ui-dialog.notes_on_context_menu {
+    display: flex;
+    flex-direction: column;
+}
+.ui-dialog.notes_on_context_menu .ui-dialog-content.wiki {
+    flex: 1 1 auto;
+    width: 100% !important;
+    box-sizing: border-box;
+}
