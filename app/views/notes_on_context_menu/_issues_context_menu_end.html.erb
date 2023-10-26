@@ -1,0 +1,6 @@
+<% if @issue -%>
+<% note_count = @issue.visible_journals_with_index.select{|journal| journal.notes.present?}.count %>
+<li>
+  <%= context_menu_link l(:label_x_comments, count: note_count), '#', class: 'icon icon-comment notes_on_context_menu' %>
+</li>
+<% end %>
