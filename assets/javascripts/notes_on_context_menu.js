@@ -55,6 +55,9 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
 
 (() => {
   setTimeout(() => {
+    let dialogWidth = 400;
+    let dialogHeight = 300;
+    
     /**
      * Check if target is notes context menu
      * @param {Element} target - Target element
@@ -112,9 +115,6 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
      * @param {jQuery} wikiOuter - Outer element of wiki
      */
     function createEmptyDialog(target, wikiOuter) {
-      const dialogWidth = 400;
-      const dialogHeight = 300;
-
       const [posMy, posAt] = calcBestDialogPosition(
         target,
         dialogWidth,
@@ -170,6 +170,10 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
 
           $btnGroup.append($btnPrev).append($btnNext).appendTo($titleBar);
         },
+        resizeStop: (_, ui) => {
+          dialogWidth = ui.size.width;
+          dialogHeight = ui.size.height;
+        }
       });
     }
 
