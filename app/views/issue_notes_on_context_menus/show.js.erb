@@ -1,5 +1,4 @@
 <% issue = @journal.journalized %>
-<% Rails.logger.info issue.class %>
 <% if issue.is_a?(Issue) %>
 (() => {
   const $wikiOuter = $(".issue_notes_on_context_menu_wiki_outer");
