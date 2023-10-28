@@ -3,20 +3,33 @@
  * @param {Element} wikiOuter - Target element
  */
 function updateIssueNotesOnContextMenuDialog(wikiOuter) {
+  const homePath = $("#top-menu a.home").attr("href");
   const $wikiOuter = wikiOuter;
-  function updateDialogTitle($wikiOuter) {
-    const $wiki = $wikiOuter.children(".wiki");
+  const $wiki = $wikiOuter.children(".wiki");
+  const journalIdCurrent = $wiki.data("journalId");
+  const journalIds = $wiki.data("journalIds");
+  const editable = $wiki.data("editable");
+
+  function updateDialogClass() {
+    const $dialogInstance = $wikiOuter.dialog("instance");
+    if ($dialogInstance) {
+      const $dialog = $wikiOuter.closest(".ui-dialog");
+      $dialog.toggleClass("editable", editable);
+    }
+  }
+
+  function updateWikiId() {
+    $wiki.attr("id", `journal-${journalIdCurrent}-notes`);
+  }
+
+  function updateDialogTitle() {
     // Countermeasure if dialog is already closed
     if ($wikiOuter.dialog("instance")) {
       $wikiOuter.dialog("option", "title", $wiki.data("title"));
     }
   }
 
-  function updateDialogButtons($wikiOuter) {
-    const homePath = $("#top-menu a.home").attr("href");
-    const $wiki = $wikiOuter.children(".wiki");
-    const journalIdCurrent = $wiki.data("journalId");
-    const journalIds = $wiki.data("journalIds");
+  function updateDialogButtons() {
     const currentPos = journalIds.indexOf(journalIdCurrent);
     const journalIdNext =
       currentPos < journalIds.length - 1 ? journalIds[currentPos + 1] : null;
@@ -26,6 +39,11 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
     const $btnGroup = $wikiOuter
       .parent()
       .find(".ui-dialog-titlebar-button-group");
+
+    const $btnEdit = $btnGroup.find(".btn-edit");
+    $btnEdit.attr({
+      href: `${homePath}journals/${journalIdCurrent}/edit`,
+    });
 
     const $btnPrev = $btnGroup.find(".btn-prev");
     $btnPrev
@@ -50,8 +68,10 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
       });
   }
 
-  updateDialogTitle($wikiOuter);
-  updateDialogButtons($wikiOuter);
+  updateDialogClass();
+  updateWikiId();
+  updateDialogTitle();
+  updateDialogButtons();
 }
 
 (() => {
@@ -65,7 +85,16 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
      * @returns {boolean} True if target is notes context menu
      */
     function isIssueNotesOnContextMenu(target) {
-      return $(target).closest(".issue_notes_on_context_menu").length > 0;
+      function isEditCancelButton(target) {
+        return $(target).attr("href")
+          ? $(target).attr("href")[0] === "#"
+          : false;
+      }
+
+      return (
+        $(target).closest(".issue_notes_on_context_menu").length > 0 ||
+        isEditCancelButton(target)
+      );
     }
 
     /**
@@ -131,12 +160,23 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
           "ui-dialog": "issue_notes_on_context_menu",
         },
         title: "Now loading...",
+        appendTo: "#content",
         create: function () {
           const $dialogContent = $(this);
 
           // Add buttons
           const $dialog = $dialogContent.parent();
           const $titleBar = $dialog.find(".ui-dialog-titlebar");
+
+          const $btnEdit = $("<a>")
+            .addClass("btn-edit")
+            .addClass("ui-button ui-corner-all ui-widget ui-button-icon-only")
+            .addClass("edit mui-icon")
+            .attr({
+              href: "",
+              "data-remote": "true",
+              "data-method": "get",
+            });
 
           const $btnPrev = $("<a>")
             .addClass("btn-prev")
@@ -154,6 +194,8 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
             .on("click", (e) => {
               setTimeout(() => {
                 $(e.target).closest("a.btn-prev").button({ disabled: true });
+                const $dialog = $(e.target).closest(".ui-dialog");
+                $dialog.removeClass("editable");
               });
             });
 
@@ -173,6 +215,8 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
             .on("click", (e) => {
               setTimeout(() => {
                 $(e.target).closest("a.btn-next").button({ disabled: true });
+                const $dialog = $(e.target).closest(".ui-dialog");
+                $dialog.removeClass("editable");
               });
             });
 
@@ -207,6 +251,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
           );
 
           $btnGroup
+            .append($btnEdit)
             .append($btnPrev)
             .append($btnNext)
             .append($btnMaximize)

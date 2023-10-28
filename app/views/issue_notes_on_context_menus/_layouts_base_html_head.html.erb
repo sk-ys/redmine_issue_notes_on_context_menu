@@ -2,3 +2,10 @@
   <%= javascript_include_tag "issue_notes_on_context_menu", plugin: "redmine_issue_notes_on_context_menu" %>
   <%= stylesheet_link_tag "issue_notes_on_context_menu", plugin: "redmine_issue_notes_on_context_menu" %>
 <% end %>
+<% unless @heads_for_wiki_formatter_included %>
+  <%# Caution: Load jsToolbar on all pages %>
+  <% heads_for_wiki_formatter if
+    User.current.allowed_to?(:edit_issue_notes, @project) ||
+    User.current.allowed_to?(:edit_own_issue_notes, @project) ||
+    (@project.nil? && User.current.allowed_to_globally?(:edit_issue_notes)) %>
+<% end %>

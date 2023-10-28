@@ -63,3 +63,18 @@
 body.issue_notes_on_context_menu_wiki_maximized {
     overflow: hidden !important;
 }
+
+.ui-dialog.issue_notes_on_context_menu .ui-dialog-titlebar-button-group a.edit,
+.ui-dialog.issue_notes_on_context_menu .ui-dialog-titlebar-button-group a.edit:hover,
+.ui-dialog.issue_notes_on_context_menu .ui-dialog-titlebar-button-group a.edit:focus {
+  background-image: url(../images/edit_FILL0_wght400_GRAD0_opsz20.svg);
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.ui-dialog.issue_notes_on_context_menu:not(.editable) .ui-dialog-titlebar-button-group a.edit {
+    display: none;
+}
+.ui-dialog.issue_notes_on_context_menu .ui-dialog-title {
+    width: calc(100% - 120px);
+}
