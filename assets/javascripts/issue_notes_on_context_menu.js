@@ -146,9 +146,14 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
             })
             .button({
               icon: "ui-icon-caret-1-w",
-              label: "prev",
+              label: "Prev",
               showLabel: false,
               disabled: true,
+            })
+            .on("click", (e) => {
+              setTimeout(() => {
+                $(e.target).closest("a.btn-prev").button({ disabled: true });
+              });
             });
 
           const $btnNext = $("<a>")
@@ -160,9 +165,14 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
             })
             .button({
               icon: "ui-icon-caret-1-e",
-              label: "next",
+              label: "Next",
               showLabel: false,
               disabled: true,
+            })
+            .on("click", (e) => {
+              setTimeout(() => {
+                $(e.target).closest("a.btn-next").button({ disabled: true });
+              });
             });
 
           const $btnMaximize = $("<button>")
