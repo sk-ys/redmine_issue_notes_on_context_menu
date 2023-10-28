@@ -33,3 +33,33 @@
     margin-top: 0;
     margin-bottom: 0;
 }
+.ui-dialog.issue_notes_on_context_menu:not(.maximized) button.maximize,
+.ui-dialog.issue_notes_on_context_menu:not(.maximized) button.maximize:hover,
+.ui-dialog.issue_notes_on_context_menu:not(.maximized) button.maximize:focus {
+  background-image: url(../images/zoom_out_map_FILL0_wght400_GRAD0_opsz20.svg);
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.ui-dialog.issue_notes_on_context_menu.maximized button.restore,
+.ui-dialog.issue_notes_on_context_menu.maximized button.restore:hover,
+.ui-dialog.issue_notes_on_context_menu.maximized button.restore:focus {
+  background-image: url(../images/zoom_in_map_FILL0_wght400_GRAD0_opsz20.svg);
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.ui-dialog.issue_notes_on_context_menu:not(.maximized) button.restore,
+.ui-dialog.issue_notes_on_context_menu.maximized button.maximize {
+    display: none;
+}
+.ui-dialog.issue_notes_on_context_menu.maximized {
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    box-sizing: border-box;
+}
+body.issue_notes_on_context_menu_wiki_maximized {
+    overflow: hidden !important;
+}

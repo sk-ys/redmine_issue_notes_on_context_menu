@@ -57,7 +57,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
   setTimeout(() => {
     let dialogWidth = 400;
     let dialogHeight = 300;
-    
+
     /**
      * Check if target is notes context menu
      * @param {Element} target - Target element
@@ -73,6 +73,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
     function closeWiki() {
       if ($(".issue_notes_on_context_menu_wiki_outer").dialog("instance")) {
         $(".issue_notes_on_context_menu_wiki_outer").dialog("destroy");
+        $("body").removeClass("issue_notes_on_context_menu_wiki_maximized");
       }
     }
 
@@ -164,16 +165,47 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
               disabled: true,
             });
 
+          const $btnMaximize = $("<button>")
+            .addClass("ui-button ui-corner-all ui-widget ui-button-icon-only")
+            .addClass("maximize mui-icon")
+            .attr("title", "maximize")
+            .on("click", (e) => {
+              const $dialog = $(e.target).closest(
+                ".ui-dialog.issue_notes_on_context_menu"
+              );
+              $dialog.addClass("maximized");
+              $("body").addClass("issue_notes_on_context_menu_wiki_maximized");
+            });
+
+          const $btnRestore = $("<button>")
+            .addClass("ui-button ui-corner-all ui-widget ui-button-icon-only")
+            .addClass("restore mui-icon")
+            .attr("title", "restore")
+            .on("click", (e) => {
+              const $dialog = $(e.target).closest(
+                ".ui-dialog.issue_notes_on_context_menu"
+              );
+              $dialog.removeClass("maximized");
+              $("body").removeClass(
+                "issue_notes_on_context_menu_wiki_maximized"
+              );
+            });
+
           const $btnGroup = $("<div>").addClass(
             "ui-dialog-titlebar-button-group"
           );
 
-          $btnGroup.append($btnPrev).append($btnNext).appendTo($titleBar);
+          $btnGroup
+            .append($btnPrev)
+            .append($btnNext)
+            .append($btnMaximize)
+            .append($btnRestore)
+            .appendTo($titleBar);
         },
         resizeStop: (_, ui) => {
           dialogWidth = ui.size.width;
           dialogHeight = ui.size.height;
-        }
+        },
       });
     }
 
@@ -196,12 +228,15 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
       createEmptyDialog(target, $wikiOuter);
 
       if ($wiki.hasClass("empty")) {
-        $.get(`/product/issue_notes_on_context_menus/${journalIdInit}.js`, () => {
-          const $wiki = $wikiOuter.children(".wiki");
-          if ($wiki.length === 0) return;
+        $.get(
+          `/product/issue_notes_on_context_menus/${journalIdInit}.js`,
+          () => {
+            const $wiki = $wikiOuter.children(".wiki");
+            if ($wiki.length === 0) return;
 
-          $wiki.removeClass("empty");
-        });
+            $wiki.removeClass("empty");
+          }
+        );
       } else {
         updateIssueNotesOnContextMenuDialog($wikiOuter);
       }
@@ -234,7 +269,11 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
            */
           (function addEvents() {
             $("#context-menu")
-              .on("mouseenter", "ul > li.issue_notes_on_context_menu", openWikiDialog)
+              .on(
+                "mouseenter",
+                "ul > li.issue_notes_on_context_menu",
+                openWikiDialog
+              )
               .on(
                 "mouseenter",
                 "ul > li:not(.issue_notes_on_context_menu)",
