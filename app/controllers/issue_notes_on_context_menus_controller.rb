@@ -1,4 +1,4 @@
-class NotesOnContextMenusController < ApplicationController
+class IssueNotesOnContextMenusController < ApplicationController
   unloadable
   before_action :find_journal
   

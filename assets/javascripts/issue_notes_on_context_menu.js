@@ -2,7 +2,7 @@
  * Update wiki dialog
  * @param {Element} wikiOuter - Target element
  */
-function updateNotesOnContextMenuDialog(wikiOuter) {
+function updateIssueNotesOnContextMenuDialog(wikiOuter) {
   const $wikiOuter = wikiOuter;
   function updateDialogTitle($wikiOuter) {
     const $wiki = $wikiOuter.children(".wiki");
@@ -30,7 +30,7 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
     $btnPrev
       .attr({
         href: journalIdPrev
-          ? `/product/notes_on_context_menus/${journalIdPrev}`
+          ? `/product/issue_notes_on_context_menus/${journalIdPrev}`
           : "",
       })
       .button({
@@ -41,7 +41,7 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
     $btnNext
       .attr({
         href: journalIdNext
-          ? `/product/notes_on_context_menus/${journalIdNext}`
+          ? `/product/issue_notes_on_context_menus/${journalIdNext}`
           : "",
       })
       .button({
@@ -63,16 +63,16 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
      * @param {Element} target - Target element
      * @returns {boolean} True if target is notes context menu
      */
-    function isNotesOnContextMenu(target) {
-      return $(target).closest(".notes_on_context_menu").length > 0;
+    function isIssueNotesOnContextMenu(target) {
+      return $(target).closest(".issue_notes_on_context_menu").length > 0;
     }
 
     /**
      * Close wiki dialog
      */
     function closeWiki() {
-      if ($(".notes_on_context_menu_wiki_outer").dialog("instance")) {
-        $(".notes_on_context_menu_wiki_outer").dialog("destroy");
+      if ($(".issue_notes_on_context_menu_wiki_outer").dialog("instance")) {
+        $(".issue_notes_on_context_menu_wiki_outer").dialog("destroy");
       }
     }
 
@@ -81,7 +81,7 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
      * @param {Event} event - Click or contextmenu event
      */
     function tryCloseWiki(event) {
-      if (isNotesOnContextMenu(event.target)) return;
+      if (isIssueNotesOnContextMenu(event.target)) return;
       closeWiki();
     }
 
@@ -126,7 +126,7 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
         height: dialogHeight,
         position: { my: posMy, at: posAt, of: target },
         classes: {
-          "ui-dialog": "notes_on_context_menu",
+          "ui-dialog": "issue_notes_on_context_menu",
         },
         title: "Now loading...",
         create: function () {
@@ -183,7 +183,7 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
      */
     function openWikiDialog(event) {
       const target = event.target;
-      const $wikiOuter = $(".notes_on_context_menu_wiki_outer");
+      const $wikiOuter = $(".issue_notes_on_context_menu_wiki_outer");
       const $wiki = $wikiOuter.children(".wiki");
       if ($wiki.length === 0) {
         console.warn("Target wiki is not found.");
@@ -196,14 +196,14 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
       createEmptyDialog(target, $wikiOuter);
 
       if ($wiki.hasClass("empty")) {
-        $.get(`/product/notes_on_context_menus/${journalIdInit}.js`, () => {
+        $.get(`/product/issue_notes_on_context_menus/${journalIdInit}.js`, () => {
           const $wiki = $wikiOuter.children(".wiki");
           if ($wiki.length === 0) return;
 
           $wiki.removeClass("empty");
         });
       } else {
-        updateNotesOnContextMenuDialog($wikiOuter);
+        updateIssueNotesOnContextMenuDialog($wikiOuter);
       }
     }
 
@@ -214,14 +214,14 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
       try {
         const contextMenuClickOrg = contextMenuClick;
         contextMenuClick = function (event) {
-          if (isNotesOnContextMenu(event.target)) return;
+          if (isIssueNotesOnContextMenu(event.target)) return;
           tryCloseWiki(event);
           contextMenuClickOrg(event);
         };
 
         const contextMenuRightClickOrg = contextMenuRightClick;
         contextMenuRightClick = function (event) {
-          if (isNotesOnContextMenu(event.target)) return;
+          if (isIssueNotesOnContextMenu(event.target)) return;
           tryCloseWiki(event);
           contextMenuRightClickOrg(event);
         };
@@ -234,10 +234,10 @@ function updateNotesOnContextMenuDialog(wikiOuter) {
            */
           (function addEvents() {
             $("#context-menu")
-              .on("mouseenter", "ul > li.notes_on_context_menu", openWikiDialog)
+              .on("mouseenter", "ul > li.issue_notes_on_context_menu", openWikiDialog)
               .on(
                 "mouseenter",
-                "ul > li:not(.notes_on_context_menu)",
+                "ul > li:not(.issue_notes_on_context_menu)",
                 tryCloseWiki
               );
           })();

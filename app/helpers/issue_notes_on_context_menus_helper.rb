@@ -1,10 +1,10 @@
-module NotesOnContextMenusHelper
+module IssueNotesOnContextMenusHelper
   def render_notes(issue, journal)
     journal_with_notes = issue.visible_journals_with_index.select{|journal| journal.notes.present?}
     journal_ids = journal_with_notes.map{|journal| journal.id}
     content_tag(
       'div', textilizable(journal, :notes),
-      class: "wiki notes_on_context_menu",
+      class: "wiki issue_notes_on_context_menu",
       data: {
         title: "#{l(:field_notes)}(#{journal_ids.index(journal.id)+1}/#{journal_ids.count}) - #{format_time(journal.updated_on)} - #{h(journal.user)}",
         journal_id: journal.id,

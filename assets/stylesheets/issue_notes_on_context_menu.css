@@ -1,23 +1,23 @@
-.notes_on_context_menu > .notes_on_context_menu_wiki_outer {
+.issue_notes_on_context_menu > .issue_notes_on_context_menu_wiki_outer {
     display: none;
 }
-.ui-dialog.notes_on_context_menu {
+.ui-dialog.issue_notes_on_context_menu {
     display: flex;
     flex-direction: column;
 }
-.ui-dialog.notes_on_context_menu .notes_on_context_menu_wiki_outer {
+.ui-dialog.issue_notes_on_context_menu .issue_notes_on_context_menu_wiki_outer {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     width: 100% !important;
     box-sizing: border-box;
 }
-.ui-dialog.notes_on_context_menu .wiki {
+.ui-dialog.issue_notes_on_context_menu .wiki {
     flex: 1 1 auto;
     width: 100% !important;
     box-sizing: border-box;
 }
-.ui-dialog.notes_on_context_menu .ui-dialog-titlebar-button-group {
+.ui-dialog.issue_notes_on_context_menu .ui-dialog-titlebar-button-group {
     position: absolute;
     right: 30px;
     height: 20px;
@@ -25,8 +25,8 @@
     margin-top: -10px;
     display: inline-flex;
 }
-.ui-dialog.notes_on_context_menu .ui-dialog-titlebar-button-group a,
-.ui-dialog.notes_on_context_menu .ui-dialog-titlebar-button-group button {
+.ui-dialog.issue_notes_on_context_menu .ui-dialog-titlebar-button-group a,
+.ui-dialog.issue_notes_on_context_menu .ui-dialog-titlebar-button-group button {
     width: 20px;
     height: 20px;
     padding: 0;

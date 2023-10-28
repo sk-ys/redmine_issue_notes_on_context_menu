@@ -1,13 +1,13 @@
 <% if @issue -%>
 <% journal_with_notes = @issue.visible_journals_with_index.select{|journal| journal.notes.present?} %>
-<li class="notes_on_context_menu">
+<li class="issue_notes_on_context_menu">
   <%= context_menu_link(
     l(:label_x_comments, count: journal_with_notes.count), "#",
     class: "icon icon-comment" + (journal_with_notes.count == 0 ? "" : " submenu")) %>
   <% if @issue.last_notes.present? && journal_with_notes.count > 0 %>
     <% last_journal = journal_with_notes.last %>
-    <div class="notes_on_context_menu_wiki_outer" data-journal-id-init="<%= last_journal.id %>">
-      <div class="wiki notes_on_context_menu empty"></div>
+    <div class="issue_notes_on_context_menu_wiki_outer" data-journal-id-init="<%= last_journal.id %>">
+      <div class="wiki issue_notes_on_context_menu empty"></div>
     </div>
   <% end %>
 </li>

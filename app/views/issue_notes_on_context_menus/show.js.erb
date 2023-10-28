@@ -2,7 +2,7 @@
 <% Rails.logger.info issue.class %>
 <% if issue.is_a?(Issue) %>
 (() => {
-  const $wikiOuter = $(".notes_on_context_menu_wiki_outer");
+  const $wikiOuter = $(".issue_notes_on_context_menu_wiki_outer");
   const $wiki = $wikiOuter.children(".wiki");
   if ($wiki.length === 0) {
     console.warn("Target wiki is not found.");
@@ -17,7 +17,7 @@
   $wikiOuter.prepend($newWiki);
   
   // Update dialog
-  updateNotesOnContextMenuDialog($wikiOuter);
+  updateIssueNotesOnContextMenuDialog($wikiOuter);
 })();
 <% else %>
 console.error("Unsupported type: <%= issue.class %>");

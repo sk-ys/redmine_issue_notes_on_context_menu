@@ -1,2 +1,2 @@
-# Redmine Notes On Context Menu
+# Redmine Issue Notes On Context Menu
 This is a plugin for Redmine. 
