@@ -9,6 +9,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
   const journalIdCurrent = $wiki.data("journalId");
   const journalIds = $wiki.data("journalIds");
   const editable = $wiki.data("editable");
+  const labelContextMenu = $wiki.data("labelContextMenu");
 
   function updateDialogClass() {
     const $dialogInstance = $wikiOuter.dialog("instance");
@@ -40,6 +41,11 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
       .parent()
       .find(".ui-dialog-titlebar-button-group");
 
+    const $btnDelete = $btnGroup.find(".btn-delete");
+    $btnDelete.attr({
+      href: `${homePath}journals/${journalIdCurrent}?journal%5Bnotes%5D=`,
+    });
+
     const $btnEdit = $btnGroup.find(".btn-edit");
     $btnEdit.attr({
       href: `${homePath}journals/${journalIdCurrent}/edit`,
@@ -68,10 +74,19 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
       });
   }
 
+  function updateContextMenuNotesCount() {
+    if ($("#context-menu").is(":visible")) {
+      $("#context-menu li.issue_notes_on_context_menu > a").text(
+        labelContextMenu
+      );
+    }
+  }
+
   updateDialogClass();
   updateWikiId();
   updateDialogTitle();
   updateDialogButtons();
+  updateContextMenuNotesCount();
 }
 
 (() => {
@@ -168,6 +183,17 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
           const $dialog = $dialogContent.parent();
           const $titleBar = $dialog.find(".ui-dialog-titlebar");
 
+          const $btnDelete = $("<a>")
+            .addClass("btn-delete")
+            .addClass("ui-button ui-corner-all ui-widget ui-button-icon-only")
+            .addClass("delete mui-icon")
+            .attr({
+              href: "",
+              "data-remote": "true",
+              "data-method": "put",
+              "data-confirm": "Are you sure?",
+            });
+
           const $btnEdit = $("<a>")
             .addClass("btn-edit")
             .addClass("ui-button ui-corner-all ui-widget ui-button-icon-only")
@@ -251,6 +277,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
           );
 
           $btnGroup
+            .append($btnDelete)
             .append($btnEdit)
             .append($btnPrev)
             .append($btnNext)

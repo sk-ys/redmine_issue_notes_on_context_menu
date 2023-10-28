@@ -1,0 +1,26 @@
+<% if @journal.frozen? %>
+(() => {
+  const $wikiOuter = $(".issue_notes_on_context_menu_wiki_outer");
+  const $wiki = $wikiOuter.children(".wiki");
+  if ($wiki.length === 0) {
+    console.warn("Target wiki is not found.");
+    return;
+  }
+  
+  if ($wikiOuter.dialog("instance")) {
+    const $dialog = $wikiOuter.closest(".ui-dialog");
+    const $btnGroup = $dialog.find(".ui-dialog-titlebar-button-group");
+    const $btnPrev = $btnGroup.find(".btn-prev");
+    const $btnNext = $btnGroup.find(".btn-next");
+    
+    if (!$btnNext.hasClass("ui-state-disabled")) {
+      $btnNext[0].click();
+    } else if (!$btnPrev.hasClass("ui-state-disabled")) {
+      $btnPrev[0].click();
+    } else {
+      // Close context menu
+      contextMenuClick({target: null});
+    }
+  }
+})();
+<% end %>

@@ -10,6 +10,7 @@ module IssueNotesOnContextMenusHelper
         journal_id: journal.id,
         journal_ids: journal_ids.to_s,
         editable: journal.editable_by?(User.current),
+        label_context_menu: l(:label_x_comments, count: journal_with_notes.count),
       })
   end
 end
