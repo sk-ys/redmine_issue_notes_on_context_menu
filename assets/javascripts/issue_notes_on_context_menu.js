@@ -13,6 +13,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
   }
 
   function updateDialogButtons($wikiOuter) {
+    const homePath = $("#top-menu a.home").attr("href");
     const $wiki = $wikiOuter.children(".wiki");
     const journalIdCurrent = $wiki.data("journalId");
     const journalIds = $wiki.data("journalIds");
@@ -30,7 +31,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
     $btnPrev
       .attr({
         href: journalIdPrev
-          ? `/product/issue_notes_on_context_menus/${journalIdPrev}`
+          ? `${homePath}issue_notes_on_context_menus/${journalIdPrev}`
           : "",
       })
       .button({
@@ -41,7 +42,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
     $btnNext
       .attr({
         href: journalIdNext
-          ? `/product/issue_notes_on_context_menus/${journalIdNext}`
+          ? `${homePath}issue_notes_on_context_menus/${journalIdNext}`
           : "",
       })
       .button({
@@ -224,6 +225,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
      * @param {Event} event - Mouseover event
      */
     function openWikiDialog(event) {
+      const homePath = $("#top-menu a.home").attr("href");
       const target = event.target;
       const $wikiOuter = $(".issue_notes_on_context_menu_wiki_outer");
       const $wiki = $wikiOuter.children(".wiki");
@@ -239,7 +241,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
 
       if ($wiki.hasClass("empty")) {
         $.get(
-          `/product/issue_notes_on_context_menus/${journalIdInit}.js`,
+          `${homePath}issue_notes_on_context_menus/${journalIdInit}.js`,
           () => {
             const $wiki = $wikiOuter.children(".wiki");
             if ($wiki.length === 0) return;
