@@ -2,8 +2,6 @@ class IssueNotesOnContextMenusController < ApplicationController
   unloadable
   before_action :find_journal
   
-  helper :journal
-  
   def show
     respond_to do |format|
       format.js
