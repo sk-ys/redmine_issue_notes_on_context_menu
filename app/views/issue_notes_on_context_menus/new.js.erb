@@ -1,7 +1,16 @@
-$(".issue_notes_on_context_menu_wiki_outer")
-  .dialog({title: IssueNotesOnContextMenu.resources.label_add_note})
-  .closest(".ui-dialog")
-    .addClass("add_note").end()
-  .children(".wiki")
-    .hide()
-    .after("<%= escape_javascript(render partial: 'new_form') %>");
+(() => {
+  const $wikiOuter = $(".issue_notes_on_context_menu_wiki_outer");
+  $wikiOuter
+    .dialog({ title: IssueNotesOnContextMenu.resources.label_add_note })
+    .closest(".ui-dialog")
+    .addClass("add_note")
+    .end()
+    .children(".wiki")
+    .hide();
+
+  if ($wikiOuter.find("form.add_notes_form").length === 0) {
+    $wikiOuter
+      .children(".wiki")
+      .after("<%= escape_javascript(render partial: 'new_form') %>");
+  }
+})();

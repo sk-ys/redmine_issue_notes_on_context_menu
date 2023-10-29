@@ -1,4 +1,7 @@
-<%= form_tag issue_notes_on_context_menus_path(@issue), id: "add_notes_form-#{@issue.id.to_s}", multipart: true, remote: true do %>
+<%= form_tag(
+  issue_notes_on_context_menus_path(@issue),
+  id: "add_notes_form-#{@issue.id.to_s}", class: "add_notes_form",
+  multipart: true, remote: true) do %>
   <%= text_area_tag "issue[notes]", nil, cols: 60, rows: 10, class: "wiki-edit",
         data: { auto_complete: true }, id: "add_issue_notes-#{@issue.id.to_s}", no_label: true %>
   <%= wikitoolbar_for "add_issue_notes-#{@issue.id.to_s}", preview_issue_path(project_id: @project, issue_id: @issue) %>
@@ -21,9 +24,12 @@
             "const $wiki = $wikiOuter.children('.wiki');" +
             "$wikiOuter.children('#add_notes_form-#{@issue.id.to_s}').remove();" +
             "$wikiOuter.closest('.ui-dialog').removeClass('add_note');" +
-            "$wiki.show();" +
-            "if ($wiki.hasClass('empty')) $wikiOuter.dialog('close');" +
-            "$wikiOuter.dialog({title: $wiki.data('title')});" +
+            "if ($wiki.hasClass('empty')) {" +
+              "$wikiOuter.dialog('close');" +
+            "} else {" +
+              "$wiki.show();" +
+              "$wikiOuter.dialog({title: $wiki.data('title')});" +
+            "}" +
           "})();" +
           "return false;") %>
     </p>
