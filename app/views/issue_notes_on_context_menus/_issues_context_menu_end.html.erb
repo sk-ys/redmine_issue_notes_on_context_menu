@@ -1,14 +1,25 @@
 <% if @issue -%>
 <% journal_with_notes = @issue.visible_journals_with_index.select{|journal| journal.notes.present?} %>
-<li class="issue_notes_on_context_menu">
+<li class="issue_notes_on_context_menu folder">
   <%= context_menu_link(
     l(:label_x_comments, count: journal_with_notes.count), "#",
-    class: "icon icon-comment" + (journal_with_notes.count == 0 ? "" : " submenu")) %>
+    class: "icon icon-comment submenu") %>
+  <% addable = User.current.allowed_to?(:add_issue_notes, @issue.project)  %>
   <% if @issue.last_notes.present? && journal_with_notes.count > 0 %>
     <% last_journal = journal_with_notes.last %>
-    <div class="issue_notes_on_context_menu_wiki_outer" data-journal-id-init="<%= last_journal.id %>">
-      <div class="wiki issue_notes_on_context_menu empty"></div>
-    </div>
+  <% else %>
+    <% last_journal = nil %>
+    <ul class="add_note">
+      <li>
+        <%= context_menu_link(l(:label_add_note), "#", class: "add_note icon icon-comment") %>
+      </li>
+    </ul>
   <% end %>
+  <div class="issue_notes_on_context_menu_wiki_outer"
+    data-journal-id-init="<%= last_journal ? last_journal.id : "" %>"
+    data-issue-id="<%= @issue.id %>"
+    data-addable="<%= addable %>">
+    <div class="wiki issue_notes_on_context_menu empty"></div>
+  </div>
 </li>
 <% end %>

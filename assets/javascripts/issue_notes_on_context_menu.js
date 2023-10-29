@@ -91,7 +91,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
 
 (() => {
   setTimeout(() => {
-    let dialogWidth = 400;
+    let dialogWidth = 500;
     let dialogHeight = 300;
 
     /**
@@ -159,20 +159,25 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
      * Create empty wiki dialog
      * @param {Element} target - Target element
      * @param {jQuery} wikiOuter - Outer element of wiki
+     * @returns {Element} Dialog element
      */
     function createEmptyDialog(target, wikiOuter) {
+      const homePath = $("#top-menu a.home").attr("href");
+      const addable = $(wikiOuter).data("addable");
+      const issueId = $(wikiOuter).data("issueId");
       const [posMy, posAt] = calcBestDialogPosition(
         target,
         dialogWidth,
         dialogHeight
       );
 
-      $(wikiOuter).dialog({
+      return $(wikiOuter).dialog({
         width: dialogWidth,
         height: dialogHeight,
         position: { my: posMy, at: posAt, of: target },
         classes: {
-          "ui-dialog": "issue_notes_on_context_menu",
+          "ui-dialog":
+            "issue_notes_on_context_menu" + (addable ? " addable" : ""),
         },
         title: "Now loading...",
         appendTo: "#content",
@@ -246,6 +251,19 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
               });
             });
 
+          const $btnAdd = $("<a>")
+            .addClass("btn-add")
+            .attr({
+              href: `${homePath}issue_notes_on_context_menus/${issueId}/new`,
+              "data-remote": "true",
+              "data-method": "get",
+            })
+            .button({
+              icon: "ui-icon-plus",
+              label: "Add",
+              showLabel: false,
+            });
+
           const $btnMaximize = $("<button>")
             .addClass("ui-button ui-corner-all ui-widget ui-button-icon-only")
             .addClass("maximize mui-icon")
@@ -281,6 +299,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
             .append($btnEdit)
             .append($btnPrev)
             .append($btnNext)
+            .append($btnAdd)
             .append($btnMaximize)
             .append($btnRestore)
             .appendTo($titleBar);
@@ -288,6 +307,10 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
         resizeStop: (_, ui) => {
           dialogWidth = ui.size.width;
           dialogHeight = ui.size.height;
+        },
+        close: (e) => {
+          // Destroy on close
+          $(e.target).dialog("destroy");
         },
       });
     }
@@ -298,7 +321,6 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
      */
     function openWikiDialog(event) {
       const homePath = $("#top-menu a.home").attr("href");
-      const target = event.target;
       const $wikiOuter = $(".issue_notes_on_context_menu_wiki_outer");
       const $wiki = $wikiOuter.children(".wiki");
       if ($wiki.length === 0) {
@@ -309,20 +331,36 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
       const journalIdInit = $wikiOuter.data("journalIdInit");
       if (journalIdInit === undefined) return;
 
-      createEmptyDialog(target, $wikiOuter);
+      if (journalIdInit === "") {
+        if (event.type === "mouseenter") return;
+      }
 
-      if ($wiki.hasClass("empty")) {
-        $.get(
-          `${homePath}issue_notes_on_context_menus/${journalIdInit}.js`,
-          () => {
-            const $wiki = $wikiOuter.children(".wiki");
-            if ($wiki.length === 0) return;
+      const $dialogContent = createEmptyDialog(
+        $("li.issue_notes_on_context_menu")[0],
+        $wikiOuter
+      );
 
-            $wiki.removeClass("empty");
-          }
-        );
+      if (journalIdInit === "") {
+        setTimeout(() => {
+          const $dialog = $dialogContent.closest(".ui-dialog");
+          const $btnAdd = $dialog.find("a.btn-add");
+          $btnAdd[0].click();
+          $dialogContent.dialog({title: $(event.target).text()});
+        });
       } else {
-        updateIssueNotesOnContextMenuDialog($wikiOuter);
+        if ($wiki.hasClass("empty")) {
+          $.get(
+            `${homePath}issue_notes_on_context_menus/${journalIdInit}.js`,
+            () => {
+              const $wiki = $wikiOuter.children(".wiki");
+              if ($wiki.length === 0) return;
+
+              $wiki.removeClass("empty");
+            }
+          );
+        } else {
+          updateIssueNotesOnContextMenuDialog($wikiOuter);
+        }
       }
     }
 
@@ -362,6 +400,11 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
                 "mouseenter",
                 "ul > li:not(.issue_notes_on_context_menu)",
                 tryCloseWiki
+              )
+              .on(
+                "click",
+                "ul > li.issue_notes_on_context_menu a.add_note",
+                openWikiDialog
               );
           })();
         };

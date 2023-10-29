@@ -1,0 +1,26 @@
+<%= form_tag issue_notes_on_context_menus_path(@issue), id: "add_notes_form-#{@issue.id.to_s}", multipart: true, remote: true do %>
+  <%= text_area_tag "issue[notes]", nil, cols: 60, rows: 10, class: "wiki-edit",
+        data: { auto_complete: true }, id: "add_issue_notes-#{@issue.id.to_s}", no_label: true %>
+  <%= wikitoolbar_for "add_issue_notes-#{@issue.id.to_s}", preview_issue_path(project_id: @project, issue_id: @issue) %>
+  <div class="commands">
+    <% if @issue.safe_attribute? "private_notes" %>
+      <div class="private_notes">
+        <%= check_box_tag "issue[private_notes]", true, false, id: "add_issue_private_notes-#{@issue.id.to_s}" %>
+        <label for="<%= "add_issue_private_notes-#{@issue.id.to_s}" %>">
+          <%= l(:field_private_notes) %>
+        </label>
+      </div>
+    <% end %>
+    <p>
+      <%= submit_tag l(:button_submit) %>
+      <%= link_to(
+        l(:button_cancel), '#',
+        onclick:
+          "$('.issue_notes_on_context_menu_wiki_outer > #add_notes_form-#{@issue.id.to_s}').remove();" +
+          "$('.issue_notes_on_context_menu_wiki_outer').closest('.ui-dialog').removeClass('add_note');" +
+          "$('.issue_notes_on_context_menu_wiki_outer > .wiki').show();" +
+          "if ($('.issue_notes_on_context_menu_wiki_outer > .wiki').hasClass('empty')) $('.issue_notes_on_context_menu_wiki_outer').dialog('close');" +
+          "return false;") %>
+    </p>
+  </div>
+<% end %>

@@ -1,0 +1,6 @@
+$(".issue_notes_on_context_menu_wiki_outer")
+  .closest(".ui-dialog")
+    .addClass("add_note").end()
+  .children(".wiki")
+    .hide()
+    .after("<%= escape_javascript(render partial: 'new_form') %>");

@@ -1,0 +1,8 @@
+<% if @saved %>
+  $(".issue_notes_on_context_menu_wiki_outer")
+    .children("#add_notes_form-<%= @issue.id.to_s %>").remove().end()
+    .children("ul.add_note").remove().end()
+    .closest(".ui-dialog").removeClass("add_note").end()
+    .data({"journal-id-init": <%= @journal.id %>});
+  <%= render partial: 'update_note' %>
+<% end %>

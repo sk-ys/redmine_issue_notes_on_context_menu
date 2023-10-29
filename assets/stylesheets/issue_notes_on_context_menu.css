@@ -82,9 +82,15 @@ body.issue_notes_on_context_menu_wiki_maximized {
   background-position: center;
 }
 .ui-dialog.issue_notes_on_context_menu:not(.editable) .ui-dialog-titlebar-button-group a.edit,
-.ui-dialog.issue_notes_on_context_menu:not(.editable) .ui-dialog-titlebar-button-group a.delete {
+.ui-dialog.issue_notes_on_context_menu:not(.editable) .ui-dialog-titlebar-button-group a.delete,
+.ui-dialog.issue_notes_on_context_menu:not(.addable) .ui-dialog-titlebar-button-group a.btn-add,
+.ui-dialog.issue_notes_on_context_menu.add_note .ui-dialog-titlebar-button-group a.edit,
+.ui-dialog.issue_notes_on_context_menu.add_note .ui-dialog-titlebar-button-group a.delete,
+.ui-dialog.issue_notes_on_context_menu.add_note .ui-dialog-titlebar-button-group a.btn-prev,
+.ui-dialog.issue_notes_on_context_menu.add_note .ui-dialog-titlebar-button-group a.btn-next,
+.ui-dialog.issue_notes_on_context_menu.add_note .ui-dialog-titlebar-button-group a.btn-add {
     display: none;
 }
 .ui-dialog.issue_notes_on_context_menu .ui-dialog-title {
-    width: calc(100% - 130px);
+    width: calc(100% - 150px);
 }

@@ -1,0 +1,18 @@
+(() => {
+  const $wikiOuter = $(".issue_notes_on_context_menu_wiki_outer");
+  const $wiki = $wikiOuter.children(".wiki");
+  if ($wiki.length === 0) {
+    console.warn("Target wiki is not found.");
+    return;
+  }
+  
+  // Replace wiki
+  const wikiClass = $wiki.attr("class");
+  $wiki.remove();
+  const $newWiki = $("<%= escape_javascript(render_notes(@issue, @journal)) %>");
+  $newWiki.addClass(wikiClass);
+  $wikiOuter.prepend($newWiki);
+  
+  // Update dialog
+  updateIssueNotesOnContextMenuDialog($wikiOuter);
+})();
