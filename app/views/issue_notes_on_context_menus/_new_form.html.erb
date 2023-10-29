@@ -18,10 +18,12 @@
         onclick:
           "(()=>{" +
             "const $wikiOuter = $('.issue_notes_on_context_menu_wiki_outer');" +
+            "const $wiki = $wikiOuter.children('.wiki');" +
             "$wikiOuter.children('#add_notes_form-#{@issue.id.to_s}').remove();" +
             "$wikiOuter.closest('.ui-dialog').removeClass('add_note');" +
-            "$wikiOuter.children('.wiki').show();" +
-            "if ($wikiOuter.children('.wiki').hasClass('empty')) $wikiOuter.dialog('close');" +
+            "$wiki.show();" +
+            "if ($wiki.hasClass('empty')) $wikiOuter.dialog('close');" +
+            "$wikiOuter.dialog({title: $wiki.data('title')});" +
           "})();" +
           "return false;") %>
     </p>
