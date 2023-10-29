@@ -16,10 +16,13 @@
       <%= link_to(
         l(:button_cancel), '#',
         onclick:
-          "$('.issue_notes_on_context_menu_wiki_outer > #add_notes_form-#{@issue.id.to_s}').remove();" +
-          "$('.issue_notes_on_context_menu_wiki_outer').closest('.ui-dialog').removeClass('add_note');" +
-          "$('.issue_notes_on_context_menu_wiki_outer > .wiki').show();" +
-          "if ($('.issue_notes_on_context_menu_wiki_outer > .wiki').hasClass('empty')) $('.issue_notes_on_context_menu_wiki_outer').dialog('close');" +
+          "(()=>{" +
+            "const $wikiOuter = $('.issue_notes_on_context_menu_wiki_outer');" +
+            "$wikiOuter.children('#add_notes_form-#{@issue.id.to_s}').remove();" +
+            "$wikiOuter.closest('.ui-dialog').removeClass('add_note');" +
+            "$wikiOuter.children('.wiki').show();" +
+            "if ($wikiOuter.children('.wiki').hasClass('empty')) $wikiOuter.dialog('close');" +
+          "})();" +
           "return false;") %>
     </p>
   </div>
