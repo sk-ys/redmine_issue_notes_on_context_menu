@@ -103,7 +103,8 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
     function isIssueNotesOnContextMenu(target) {
       function isEditCancelButton(target) {
         return $(target).attr("href")
-          ? $(target).attr("href")[0] === "#"
+          ? $(target).attr("href")[0] === "#" &&
+              $(target).text() === resources.label_cancel
           : false;
       }
 
@@ -198,7 +199,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
               href: "",
               "data-remote": "true",
               "data-method": "put",
-              "title": resources.label_delete,
+              title: resources.label_delete,
               "data-confirm": resources.text_are_you_sure,
             });
 
@@ -210,7 +211,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
               href: "",
               "data-remote": "true",
               "data-method": "get",
-              "title": resources.label_edit,
+              title: resources.label_edit,
             });
 
           const $btnPrev = $("<a>")
@@ -349,7 +350,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
           const $dialog = $dialogContent.closest(".ui-dialog");
           const $btnAdd = $dialog.find("a.btn-add");
           $btnAdd[0].click();
-          $dialogContent.dialog({title: resources.label_add_note});
+          $dialogContent.dialog({ title: resources.label_add_note });
         });
       } else {
         if ($wiki.hasClass("empty")) {
