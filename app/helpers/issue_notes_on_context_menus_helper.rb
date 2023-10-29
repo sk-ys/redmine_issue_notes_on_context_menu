@@ -10,7 +10,11 @@ module IssueNotesOnContextMenusHelper
         journal_id: journal.id,
         journal_ids: journal_ids.to_s,
         editable: journal.editable_by?(User.current),
-        label_context_menu: l(:label_x_comments, count: journal_with_notes.count),
+        label_context_menu: labelContextMenu(journal_with_notes.count),
       })
+  end
+
+  def labelContextMenu(num_of_notes)
+    "#{l(:field_notes)} (#{num_of_notes})"
   end
 end

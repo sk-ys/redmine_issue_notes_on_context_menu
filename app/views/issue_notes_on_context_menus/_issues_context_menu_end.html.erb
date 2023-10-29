@@ -2,7 +2,7 @@
 <% journal_with_notes = @issue.visible_journals_with_index.select{|journal| journal.notes.present?} %>
 <li class="issue_notes_on_context_menu folder">
   <%= context_menu_link(
-    l(:label_x_comments, count: journal_with_notes.count), "#",
+    "#{l(:field_notes)} (#{journal_with_notes.count})", "#",
     class: "icon icon-comment submenu") %>
   <% addable = User.current.allowed_to?(:add_issue_notes, @issue.project)  %>
   <% if @issue.last_notes.present? && journal_with_notes.count > 0 %>
