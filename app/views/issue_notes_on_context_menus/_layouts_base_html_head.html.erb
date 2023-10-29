@@ -1,4 +1,21 @@
 <% content_for :header_tags do %>
+  <script>
+  var IssueNotesOnContextMenu = {
+    resources: {
+      text_are_you_sure: "<%= l(:text_are_you_sure) %>",
+      label_add: "<%= l(:button_add) %>",
+      label_edit: "<%= l(:button_edit) %>",
+      label_delete: "<%= l(:button_delete) %>",
+      label_next: "<%= l(:label_next) %>",
+      label_previous: "<%= l(:label_previous) %>",
+      label_close: "<%= l(:button_close) %>",
+      label_add_note: "<%= l(:label_add_note) %>",
+      label_loading: "<%= l(:label_loading) %>",
+      label_maximize: document.documentElement.lang === "ja" ? "最大化" : "Maximze",
+      label_restore: document.documentElement.lang === "ja" ? "元に戻す" : "Restore",
+    }
+  }
+  </script>
   <%= javascript_include_tag "issue_notes_on_context_menu", plugin: "redmine_issue_notes_on_context_menu" %>
   <%= stylesheet_link_tag "issue_notes_on_context_menu", plugin: "redmine_issue_notes_on_context_menu" %>
 <% end %>

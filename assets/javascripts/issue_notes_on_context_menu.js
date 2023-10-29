@@ -93,6 +93,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
   setTimeout(() => {
     let dialogWidth = 500;
     let dialogHeight = 300;
+    const resources = IssueNotesOnContextMenu.resources;
 
     /**
      * Check if target is notes context menu
@@ -179,8 +180,9 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
           "ui-dialog":
             "issue_notes_on_context_menu" + (addable ? " addable" : ""),
         },
-        title: "Now loading...",
+        title: resources.label_loading,
         appendTo: "#content",
+        closeText: resources.label_close,
         create: function () {
           const $dialogContent = $(this);
 
@@ -196,7 +198,8 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
               href: "",
               "data-remote": "true",
               "data-method": "put",
-              "data-confirm": "Are you sure?",
+              "title": resources.label_delete,
+              "data-confirm": resources.text_are_you_sure,
             });
 
           const $btnEdit = $("<a>")
@@ -207,6 +210,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
               href: "",
               "data-remote": "true",
               "data-method": "get",
+              "title": resources.label_edit,
             });
 
           const $btnPrev = $("<a>")
@@ -218,7 +222,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
             })
             .button({
               icon: "ui-icon-caret-1-w",
-              label: "Prev",
+              label: resources.label_previous,
               showLabel: false,
               disabled: true,
             })
@@ -239,7 +243,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
             })
             .button({
               icon: "ui-icon-caret-1-e",
-              label: "Next",
+              label: resources.label_next,
               showLabel: false,
               disabled: true,
             })
@@ -260,14 +264,14 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
             })
             .button({
               icon: "ui-icon-plus",
-              label: "Add",
+              label: resources.label_add,
               showLabel: false,
             });
 
           const $btnMaximize = $("<button>")
             .addClass("ui-button ui-corner-all ui-widget ui-button-icon-only")
             .addClass("maximize mui-icon")
-            .attr("title", "maximize")
+            .attr("title", resources.label_maximize)
             .on("click", (e) => {
               const $dialog = $(e.target).closest(
                 ".ui-dialog.issue_notes_on_context_menu"
@@ -279,7 +283,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
           const $btnRestore = $("<button>")
             .addClass("ui-button ui-corner-all ui-widget ui-button-icon-only")
             .addClass("restore mui-icon")
-            .attr("title", "restore")
+            .attr("title", resources.label_restore)
             .on("click", (e) => {
               const $dialog = $(e.target).closest(
                 ".ui-dialog.issue_notes_on_context_menu"
@@ -345,7 +349,7 @@ function updateIssueNotesOnContextMenuDialog(wikiOuter) {
           const $dialog = $dialogContent.closest(".ui-dialog");
           const $btnAdd = $dialog.find("a.btn-add");
           $btnAdd[0].click();
-          $dialogContent.dialog({title: $(event.target).text()});
+          $dialogContent.dialog({title: resources.label_add_note});
         });
       } else {
         if ($wiki.hasClass("empty")) {
