@@ -4,7 +4,7 @@
  */
 function updateIssueNotesOnContextMenuDialog(wikiOuter) {
   const homePath = $("#top-menu a.home").attr("href");
-  const $wikiOuter = wikiOuter;
+  const $wikiOuter = $(wikiOuter);
   const $wiki = $wikiOuter.children(".wiki");
   const journalIdCurrent = $wiki.data("journalId");
   const journalIds = $wiki.data("journalIds");
