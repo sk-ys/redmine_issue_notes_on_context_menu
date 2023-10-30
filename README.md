@@ -1,6 +1,6 @@
 # Redmine Issue Notes On Context Menu
 This is a plugin for Redmine.  
-This plugin adds a menu item to the existing context menu to display the issue notes dialog.  
+This plugin add a menu item to the existing context menu to display the issue notes dialog.  
 The dialog has `edit`, `delete` and `add` capabilities.  
 
 ## Images
