@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueNotesOnContextMenusController < ApplicationController
-  unloadable
   before_action :find_journal, only: [:show]
   before_action :find_issue, only: [:new, :create]
   
