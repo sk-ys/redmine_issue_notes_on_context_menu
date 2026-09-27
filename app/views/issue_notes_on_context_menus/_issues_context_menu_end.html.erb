@@ -11,7 +11,11 @@
     <% last_journal = nil %>
     <ul class="add_note">
       <li>
-        <%= context_menu_link(l(:label_add_note), "#", class: "add_note icon icon-comment") %>
+        <% if Redmine::VERSION::MAJOR >= 6 %>
+          <%= context_menu_link(sprite_icon('comment', l(:label_add_note)), "#", class: "add_note icon icon-comment") %>
+        <% else %>
+          <%= context_menu_link(l(:label_add_note), "#", class: "add_note icon icon-comment") %>
+        <% end %>
       </li>
     </ul>
   <% end %>
