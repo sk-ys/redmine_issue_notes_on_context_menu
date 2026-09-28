@@ -1,9 +1,10 @@
 <% if @issue -%>
 <% journal_with_notes = @issue.visible_journals_with_index.select{|journal| journal.notes.present?} %>
 <li class="issue_notes_on_context_menu folder">
-  <%= context_menu_link(
-    "#{l(:field_notes)} (#{journal_with_notes.count})", "#",
-    class: "icon icon-comment submenu") %>
+  <a href="#" class="submenu"><%= "#{l(:field_notes)} (#{journal_with_notes.count})" %></a>
+  <% if Redmine::VERSION::MAJOR >= 6 %>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
+  <% end %>
   <% addable = User.current.allowed_to?(:add_issue_notes, @issue.project)  %>
   <% if @issue.last_notes.present? && journal_with_notes.count > 0 %>
     <% last_journal = journal_with_notes.last %>
@@ -11,7 +12,11 @@
     <% last_journal = nil %>
     <ul class="add_note">
       <li>
-        <%= context_menu_link(l(:label_add_note), "#", class: "add_note icon icon-comment") %>
+        <% if Redmine::VERSION::MAJOR >= 6 %>
+          <%= context_menu_link(sprite_icon('comment', l(:label_add_note)), "#", class: "add_note icon icon-comment") %>
+        <% else %>
+          <%= context_menu_link(l(:label_add_note), "#", class: "add_note icon icon-comment") %>
+        <% end %>
       </li>
     </ul>
   <% end %>

@@ -7,6 +7,20 @@ module IssueNotesOnContextMenu
   
       module InstanceMethods
         def render_notes_on_context_menu(issue, journal)
+          if journal.nil? || journal.frozen? || journal.notes_and_details_empty?
+            # Return an empty context menu for frozen or empty journals
+            return content_tag(
+              'div', 'Please report this issue to your administrator.'.html_safe,
+              class: "wiki issue_notes_on_context_menu failed_to_load",
+              data: {
+                title: "Failed to load notes",
+                journal_id: nil,
+                journal_ids: [].to_s,
+                editable: false,
+                label_context_menu: labelContextMenu("-"),
+              })
+          end
+
           journal_with_notes = issue.visible_journals_with_index.select{|journal| journal.notes.present?}
           journal_ids = journal_with_notes.map{|journal| journal.id}
           content_tag(
@@ -20,9 +34,9 @@ module IssueNotesOnContextMenu
               label_context_menu: labelContextMenu(journal_with_notes.count),
             })
         end
-      
-        def labelContextMenu(num_of_notes)
-          "#{l(:field_notes)} (#{num_of_notes})"
+
+        def labelContextMenu(content)
+          "#{l(:field_notes)} (#{content})"
         end
       end
     end
