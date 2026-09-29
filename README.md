@@ -11,7 +11,7 @@ The dialog has `edit`, `delete` and `add` capabilities.
 ![Edit mode](doc/edit_mode.png)
 
 ## Supported Redmine Versions
-Redmine `5.0.5`, `6.1.4`, and `7.0.1` have been checked. Other versions have not been checked.
+Redmine `5.1.13`, `6.1.4`, and `7.0.1` have been checked. Other versions have not been checked.
 
 ## Installation
 ### When using git
