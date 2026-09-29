@@ -4,10 +4,10 @@ module IssueNotesOnContextMenu
       def self.included(base)
         base.send(:include, InstanceMethods)
       end
-  
+
       module InstanceMethods
         def render_notes_on_context_menu(issue, journal)
-          if journal.nil? || journal.frozen? || journal.notes_and_details_empty?
+          if journal.nil? || journal.frozen? || (journal.respond_to?(:notes_and_details_empty?) && journal.notes_and_details_empty?)
             # Return an empty context menu for frozen or empty journals
             return content_tag(
               'div', 'Please report this issue to your administrator.'.html_safe,

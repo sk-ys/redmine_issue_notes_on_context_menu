@@ -1,4 +1,4 @@
-<% if @journal.frozen? || @journal.notes_and_details_empty? %>
+<% if @journal.frozen? || (@journal.respond_to?(:notes_and_details_empty?) && @journal.notes_and_details_empty?) %>
 (() => {
   const $wikiOuter = $(".issue_notes_on_context_menu_wiki_outer");
   const $wiki = $wikiOuter.children(".wiki");
